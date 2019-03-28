@@ -5,7 +5,9 @@ if ('serviceWorker' in navigator) {
     console.log('重新加载页面', e.data)
     location.reload()
   })
-  navigator.serviceWorker.register('sw.js?v=cache-1', { scope: './' })
+  let version = 1
+  // TODO 动态修改版本号
+  navigator.serviceWorker.register(`sw.js?v=cache-${version}`, { scope: './' })
     .then(function (registration) {
       console.log('serviceworker 注册成功')
       let serviceworker

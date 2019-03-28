@@ -1,13 +1,7 @@
-// TODO: 支持可配置白名单
 let mainCacheFiles = [
-  'index.html',
-  'js',
-  'css',
-  'png',
-  'jpg'
+  'index.html'
 ]
-// TODO: 动态修改版本号
-let version = 'cache-version1'
+let version = 'cache-version'
 
 // 缓存静态资源
 self.addEventListener('install', function (evt) {
@@ -46,10 +40,19 @@ self.addEventListener('activate', function (evt) {
 })
 // 白名单过滤
 function filterAssetRequest (url) {
+  const urlObj = new URL(url)
+  // 过滤参数
+  let link = urlObj.href.substring(urlObj.protocol.length)
+  if (urlObj.href.indexOf('?') > -1) {
+    link = urlObj.href.substring(0, urlObj.href.indexOf('?'))
+  }
+  console.log('link', link)
   let result = mainCacheFiles.some(elem => {
     let reg = new RegExp(`${elem}$`)
-    return url.match(reg) > -1
+    console.log('match', reg, link, link.match(reg))
+    return link.match(reg)
   })
+  // console.log('res', result)
   return result
 }
 
