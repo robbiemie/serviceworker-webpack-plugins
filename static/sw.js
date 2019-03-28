@@ -1,3 +1,4 @@
+// TODO: 支持可配置白名单
 let mainCacheFiles = [
   'index.html',
   'js',
@@ -5,7 +6,7 @@ let mainCacheFiles = [
   'png',
   'jpg'
 ]
-
+// TODO: 动态修改版本号
 let version = 'cache-version1'
 
 // 缓存静态资源
