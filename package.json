@@ -1,6 +1,6 @@
 {
   "name": "serviceworker-webpack-plugins",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Simplifies creation of serviceworker files to serve your PWA",
   "main": "lib/index.js",
   "scripts": {
