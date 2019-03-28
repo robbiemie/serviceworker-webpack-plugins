@@ -41,7 +41,7 @@ Insert the following script tag below your body node
 <script>
     let script = document.createElement('script')
     let el = document.body.getElementsByTagName('script')[0]
-    script.src = `./sw-register.js?v=${Date.now()}`
+    script.src = `./sw.js?v=${Date.now()}`
     el.parentNode.insertBefore(script,el)
 </script>
 
