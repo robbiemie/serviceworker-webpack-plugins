@@ -8,7 +8,7 @@
 - **install**
 
 ```bash
-$ npm i serviceworker-webpack-plugins
+$ npm i serviceworker-webpack-plugins --save-dev
 ```
 
 - **setup**
