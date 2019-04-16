@@ -47,6 +47,12 @@ Insert the following script tag below your body node
 
 ```
 
+> Local debugging
+
+- Chrome whiteList Setting：chrome://flags/#unsafely-treat-insecure-origin-as-secure
+- Reason: https://www.chromium.org/Home/chromium-security/prefer-secure-origins-for-powerful-new-features
+
+
 ## Key Points
 
 `createChildCompiler`
