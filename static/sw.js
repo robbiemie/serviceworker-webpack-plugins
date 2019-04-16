@@ -1,16 +1,13 @@
 let mainCacheFiles = [
-  'index.html',
-  'js',
-  'css',
-  'png',
-  'jpg'
+  'index.html'
 ]
+let params = self.location.search
+let KV = params.substring(params.indexOf('?') + 1, params.length)
+let version = KV.split('=')[1]
 
-let version = 'cache-version1'
-
-// 缓存静态资源
+// Cache Static Resource
 self.addEventListener('install', function (evt) {
-  // 强制更新sw.js
+  // force update sw.js
   console.log(`${version} installing...`)
   self.skipWaiting()
   evt.waitUntil(
@@ -20,7 +17,7 @@ self.addEventListener('install', function (evt) {
   )
 })
 
-// 缓存更新
+// Cache Update
 self.addEventListener('activate', function (evt) {
   console.log(`${version} activating...`)
   self.clients.matchAll().then(clients => {
@@ -35,7 +32,7 @@ self.addEventListener('activate', function (evt) {
       return Promise.all(
         cacheNames.map(function (cacheName) {
           if (cacheName !== version) {
-            // 删除无效 cacheName
+            // delete expired cacheName
             return caches.delete(cacheName)
           }
         })
@@ -43,22 +40,28 @@ self.addEventListener('activate', function (evt) {
     })
   )
 })
-// 白名单过滤
+// filter whilteList
 function filterAssetRequest (url) {
+  const urlObj = new URL(url)
+  // filter params
+  let link = urlObj.href.substring(urlObj.protocol.length)
+  if (urlObj.href.indexOf('?') > -1) {
+    link = urlObj.href.substring(0, urlObj.href.indexOf('?'))
+  }
   let result = mainCacheFiles.some(elem => {
-    let reg = new RegExp(`${elem}$`)
-    return url.match(reg) > -1
+    let reg = new RegExp(`${elem}`)
+    return link.match(reg)
   })
   return result
 }
 
-// 请求拦截
+// request block
 self.addEventListener('fetch', function (evt) {
   const url = evt.request.url
   let assetMatch = filterAssetRequest(url)
   if (url.match('sockjs')) return
   let isGetMethod = evt.request.method === 'GET'
-  // 过滤 非GET请求 | 非白名单url
+  // filter non-GET request | non-whileList URL
   if (!isGetMethod || !assetMatch) return
 
   evt.respondWith(
@@ -66,18 +69,15 @@ self.addEventListener('fetch', function (evt) {
       if (response) {
         return response
       }
-      // console.log('缓存未匹配对应request,准备从network获取', caches)
       return fetch(evt.request).then(function (response) {
-        // console.log('req', evt.request, response.clone())
         let cpResponse = response.clone()
-        // console.log('fetch获取到的response:', response)
         caches.open(version).then(function (cache) {
           cache.put(evt.request, cpResponse)
         })
         return response
       })
     }).catch(function (err) {
-      console.error('fetch 接口错误', err)
+      console.error('fetch interface error', err)
       throw err
     })
   )

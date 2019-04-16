@@ -1,31 +1,31 @@
 if ('serviceWorker' in navigator) {
-  // 检测serviceworker支持情况
+  // checkout serviceworker support
   navigator.serviceWorker.addEventListener('message', function (e) {
-    // if(e.data==='sw')
-    console.log('重新加载页面', e.data)
+    console.log('reload page', e.data)
     location.reload()
   })
-  navigator.serviceWorker.register('sw.js?v=cache-1', { scope: './' })
+  let version = 1.1
+  navigator.serviceWorker.register(`sw.js?v=cache-${version}`, { scope: './' })
     .then(function (registration) {
-      console.log('serviceworker 注册成功')
+      console.log('serviceworker register success')
       let serviceworker
       if (registration.installing) {
         serviceworker = registration.installing
-        console.log('当前状态为： installing')
+        console.log('currrent satatus： installing')
       } else if (registration.waiting) {
         serviceworker = registration.waiting
-        console.log('当前状态为： waiting')
+        console.log('currrent satatus： waiting')
       } else if (registration.activing) {
         serviceworker = registration.waiting
-        console.log('当前状态为： activing')
+        console.log('currrent satatus activing')
       }
       if (serviceworker) {
-        console.log('当前serviceworker', serviceworker)
+        console.log('current serviceworker', serviceworker)
         serviceworker.addEventListener('statechange', function (event) {
-          console.log('当前状态改变为:', event.target.state)
+          console.log('currrent satatus changed:', event.target.state)
         })
       }
     }).catch(function (err) {
-      console.log('注册失败', err)
+      console.log('register fail', err)
     })
 }
