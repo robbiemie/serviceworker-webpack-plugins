@@ -22,9 +22,17 @@ module.exports = {
   // ...
   plugins: [
     new ServiceworkerPlugins({
-      entry: '', // [PATH] use local sw.js
-      excludes: [], // [PATH] exclude cacheFiles path
-      filename: '' // [NAME] rename ouput sw.js filename
+      entry: {
+        sw: {
+          filename: 'sw.js',
+          path: ''
+        },
+        register: {
+          filename: 'sw-register.js',
+          path: ''
+        }
+      },
+      include: [] // [PATH] exclude cacheFiles path
     })
   ]
 }
