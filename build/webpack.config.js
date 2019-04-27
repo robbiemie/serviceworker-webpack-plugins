@@ -7,7 +7,7 @@ module.exports = {
     index: resolve(__dirname, '../src/sw.js')
   },
   output: {
-    filename: 'bundle.[name].js',
+    filename: 'index.js',
     path: resolve(__dirname, '../dist')
   },
   plugins: [
